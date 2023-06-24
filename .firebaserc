@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ingreso-egreso-app-fd5aa": {
+      "hosting": {
+        "ingresoEgresoApp": [
+          "ingreso-egreso-app-fd5aa"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ingreso-egreso-app-fd5aa"
+  }
+}
