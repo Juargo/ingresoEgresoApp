@@ -22,7 +22,7 @@ export class AuthService {
     });
   }
 
-  createUser(name: string, email: string, password: string) {
+  createUser(name: string, email: string, password: string): Promise<any> {
     return createUserWithEmailAndPassword(this.auth, email, password).then(
       ({ user }) => {
         console.log(user);
@@ -30,5 +30,9 @@ export class AuthService {
         // return setDoc(doc(this.firestore, user.uid, 'user'), {...newUser});
       }
     );
+  }
+
+  loginUsuario(email: string, password: string) {
+    return signInWithEmailAndPassword(this.auth, email, password);
   }
 }
