@@ -5,22 +5,43 @@ import {
   signInWithEmailAndPassword,
   signOut,
   authState,
+  Unsubscribe,
 } from '@angular/fire/auth';
 import { setDoc, Firestore, doc } from '@angular/fire/firestore';
 import { Observable, map } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.reducer';
+import * as authActions from '../auth/auth.actions';
+import { onSnapshot } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth, private firestore: Firestore) {}
+  userUnsubscribe!: Unsubscribe;
+
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private store: Store<AppState>
+  ) {}
 
   initAuthListener() {
     authState(this.auth).subscribe((fUser) => {
-      console.log(fUser);
-      console.log(fUser?.uid);
-      console.log(fUser?.email);
+      if (fUser) {
+        this.userUnsubscribe = onSnapshot(
+          doc(this.firestore, fUser.uid, 'usuario'),
+          (docUser: any) => {
+            let data: any = docUser.data();
+            let user = Usuario.fromFirebase(data);
+            this.store.dispatch(authActions.setUser({ user }));
+          }
+        );
+      } else {
+        this.userUnsubscribe ? this.userUnsubscribe() : null;
+        this.store.dispatch(authActions.unSetUser());
+      }
     });
   }
 
