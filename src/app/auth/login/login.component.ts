@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,8 +27,19 @@ export class LoginComponent implements OnInit {
     this.authService
       .loginUsuario(email, password)
       .then((credendiales) => {
-        console.log(credendiales);
+        Swal.fire({
+          title: 'Espere por favor',
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        Swal.fire({
+          title: 'Error!',
+          icon: 'error',
+          text: err.message,
+        });
+      });
   }
 }
