@@ -8,6 +8,7 @@ import {
 } from '@angular/fire/auth';
 import { setDoc, Firestore, doc } from '@angular/fire/firestore';
 import { Observable, map } from 'rxjs';
+import { Usuario } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +24,12 @@ export class AuthService {
     });
   }
 
-  createUser(name: string, email: string, password: string): Promise<any> {
+  createUser(nombre: string, email: string, password: string): Promise<any> {
     return createUserWithEmailAndPassword(this.auth, email, password).then(
       ({ user }) => {
         console.log(user);
-        // const newUser = new User(user.uid, name, email);
-        // return setDoc(doc(this.firestore, user.uid, 'user'), {...newUser});
+        const newUser = new Usuario(user.uid, nombre, email);
+        return setDoc(doc(this.firestore, user.uid, 'usuario'), { ...newUser });
       }
     );
   }
