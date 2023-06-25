@@ -7,6 +7,7 @@ import {
   authState,
 } from '@angular/fire/auth';
 import { setDoc, Firestore, doc } from '@angular/fire/firestore';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +39,9 @@ export class AuthService {
 
   logout(): Promise<any> {
     return signOut(this.auth);
+  }
+
+  isAuth(): Observable<boolean> {
+    return authState(this.auth).pipe(map((fUser) => fUser !== null));
   }
 }
