@@ -36,13 +36,11 @@ export class IngresoEgresoService {
       (doc) => {
         let changes = doc.docChanges();
         let items: IngresoEgreso[] = [];
-        // console.log({
-        //   uid: changes[0].doc.id,
-        //   ...changes[0].doc.data(),
-        // });
         changes.map((data) => {
-          let docData = data.doc.data() as IngresoEgreso;
-          items.push({ uid: data.doc.id, ...docData });
+          if (data.type !== 'removed') {
+            let docData = data.doc.data() as IngresoEgreso;
+            items.push({ uid: data.doc.id, ...docData });
+          }
         });
 
         this.store.dispatch(ingresoEgresoActions.setItems({ items }));
@@ -64,7 +62,7 @@ export class IngresoEgresoService {
   }
 
   borrarIngresoEgreso(uidItem: string) {
-    deleteDoc(
+    return deleteDoc(
       doc(
         this.firestore,
         this.authService.user.uid,

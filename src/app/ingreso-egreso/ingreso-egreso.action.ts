@@ -6,3 +6,7 @@ export const setItems = createAction(
   props<{ items: IngresoEgreso[] }>()
 );
 export const unSetItems = createAction('[INGRESO EGRESO] unSetItems');
+export const deleteItem = createAction(
+  '[INGRESO EGRESO] deleteItem',
+  props<{ uidItem: string }>()
+);

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { setItems, unSetItems } from './ingreso-egreso.action';
+import { deleteItem, setItems, unSetItems } from './ingreso-egreso.action';
 import { IngresoEgreso } from '../models/ingreso-egreso.model';
 
 export interface State {
@@ -19,5 +19,9 @@ export const ingresoEgresoReducer = createReducer(
   on(unSetItems, (state) => ({
     ...state,
     items: [],
+  })),
+  on(deleteItem, (state, { uidItem }) => ({
+    ...state,
+    items: [...state.items.filter((item) => item.uid !== uidItem)],
   }))
 );
