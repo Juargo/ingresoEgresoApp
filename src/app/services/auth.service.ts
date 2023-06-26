@@ -13,6 +13,7 @@ import { Usuario } from '../models/usuario.model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import * as authActions from '../auth/auth.actions';
+import * as ingresoEgresoActions from '../ingreso-egreso/ingreso-egreso.action';
 import { onSnapshot } from 'firebase/firestore';
 
 @Injectable({
@@ -48,6 +49,7 @@ export class AuthService {
         this._user = null;
         this.userUnsubscribe ? this.userUnsubscribe() : null;
         this.store.dispatch(authActions.unSetUser());
+        this.store.dispatch(ingresoEgresoActions.unSetItems());
       }
     });
   }
