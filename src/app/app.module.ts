@@ -21,6 +21,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { appReducers } from './app.reducer';
 import { OrdenIngresoPipe } from './pipes/orden-ingreso.pipe';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { OrdenIngresoPipe } from './pipes/orden-ingreso.pipe';
     provideAuth(() => getAuth()),
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
